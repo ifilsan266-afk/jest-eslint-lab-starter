@@ -1,4 +1,3 @@
-
 // Utility Functions
 
 /**
@@ -7,7 +6,16 @@
  * @returns {string} - The formatted string.
  */
 function capitalizeWords(input) {
-    return input.replace(/\b\w/g, char => char.toUpperCase());
+    if (!input || typeof input !== 'string') return '';
+    if (input.trim() === '') return '';
+    
+    return input
+        .split(' ')
+        .map(word => {
+            if (word.length === 0) return '';
+            return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+        })
+        .join(' ');
 }
 
 /**
@@ -16,7 +24,8 @@ function capitalizeWords(input) {
  * @returns {Array} - An array of active user objects.
  */
 function filterActiveUsers(users) {
-    return users.filter(user => user.isActive);
+    if (!Array.isArray(users)) return [];
+    return users.filter(user => user.isActive === true);
 }
 
 /**
@@ -27,7 +36,9 @@ function filterActiveUsers(users) {
  */
 function logAction(action, username) {
     const timestamp = new Date().toISOString();
-    return `User ${username} performed ${action} at ${timestamp}`;
+    const message = `User ${username} performed ${action} at ${timestamp}`;
+    console.log(message);  // REQUIRED: Log to console
+    return message;
 }
 
-module.exports = { capitalizeWords, filterActiveUsers, logAction };
+module.exports = { capitalizeWords, filterActiveUsers, logAction };  // FIXED: module.exports
